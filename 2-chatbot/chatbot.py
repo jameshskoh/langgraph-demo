@@ -4,14 +4,14 @@ from IPython.core.display import Image
 from IPython.core.display_functions import display
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage, BaseMessage
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
 from typing_extensions import TypedDict
 
 
 class State(TypedDict):
-    messages: Annotated[list, add_messages]
+    messages: Annotated[list[BaseMessage], add_messages]
 
 
 if __name__ == "__main__":
@@ -36,9 +36,7 @@ if __name__ == "__main__":
     display(Image(graph.get_graph().draw_mermaid_png()))
 
     def stream_graph_updates(input_str: str):
-        for event in graph.stream(
-            State(messages=HumanMessage(input_str))
-        ):
+        for event in graph.stream(State(messages=[HumanMessage(input_str)])):
             for value in event.values():
                 print("Assistant:", value["messages"][-1].content)
 

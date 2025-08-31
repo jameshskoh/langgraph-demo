@@ -1,12 +1,17 @@
 from typing import Annotated
 
-from langchain_core.messages import AIMessage, SystemMessage, HumanMessage
-from typing_extensions import TypedDict
+from langchain_core.messages import (
+    AIMessage,
+    SystemMessage,
+    HumanMessage,
+    BaseMessage,
+)
 from langgraph.graph import StateGraph, add_messages
+from typing_extensions import TypedDict
 
 
 class State(TypedDict):
-    messages: Annotated[list, add_messages]
+    messages: Annotated[list[BaseMessage], add_messages]
 
 
 # just ignore this type error :)

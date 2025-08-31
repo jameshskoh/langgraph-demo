@@ -4,15 +4,14 @@ from IPython.core.display import Image
 from IPython.core.display_functions import display
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
-from langchain_core.messages import SystemMessage
-from typing_extensions import TypedDict
-
+from langchain_core.messages import SystemMessage, BaseMessage
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
+from typing_extensions import TypedDict
 
 
 class State(TypedDict):
-    messages: Annotated[list, add_messages]
+    messages: Annotated[list[BaseMessage], add_messages]
 
 
 if __name__ == "__main__":
@@ -38,7 +37,7 @@ if __name__ == "__main__":
 
     # ignore type check issue and trust that it will work :)
     result = graph.invoke(
-        input=State(messages=SystemMessage("This is a demo LangGraph application."))
+        input=State(messages=[SystemMessage("This is a demo LangGraph application.")])
     )
 
     print(result)
