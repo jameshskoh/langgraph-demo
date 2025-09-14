@@ -6,11 +6,10 @@ from langchain_core.messages import (
     HumanMessage,
     BaseMessage,
 )
-from langgraph.graph import StateGraph, add_messages
-from typing_extensions import TypedDict
+from langgraph.graph import StateGraph, add_messages, MessagesState
 
 
-class State(TypedDict):
+class State(MessagesState):
     messages: Annotated[list[BaseMessage], add_messages]
 
 
